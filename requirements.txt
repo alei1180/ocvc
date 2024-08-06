@@ -1,0 +1,5 @@
+keyboard~=0.13.5
+pillow~=10.4.0
+pyperclip~=1.9.0
+pystray~=0.19.5
+pywin32~=306
