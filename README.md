@@ -9,6 +9,8 @@
 <a href="https://github.com/alei1180/ocvc/releases"><img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/alei1180/ocvc/total?style=flat-square"></a>
 </p>
 
+![](img/ocvc.gif)
+
 ### Назначение
 `ocvc` - утилита, упрощающая перенос участков кода из Конфигуратора 1С в Visual Studio Code.
 
