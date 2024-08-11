@@ -1,4 +1,5 @@
 import os
+import webbrowser
 from ctypes import windll
 
 import keyboard
@@ -15,14 +16,19 @@ def run(app_name: str) -> None:
         app_name,
         app_image,
         title=app_name,
-        menu=pystray.Menu(pystray.MenuItem("Close", on_clicked)),
+        menu=pystray.Menu(
+            pystray.MenuItem("GitHub", on_clicked),
+            pystray.MenuItem("Close", on_clicked),
+        ),
     )
 
     app.run(setup)
 
 
 def on_clicked(app_icon: pystray.Icon, item: pystray.MenuItem) -> None:
-    if str(item) == "Close":
+    if str(item) == "GitHub":
+        webbrowser.open("https://github.com/alei1180/ocvc", new=2)
+    elif str(item) == "Close":
         app_icon.visible = False
         app_icon.stop()
 
@@ -83,7 +89,7 @@ def file_name_from_window(window_name: str) -> str:
         os.makedirs(path_to_save)
 
     cut_interval = window_name_cut_interval(window_name)
-    file_name = window_name[cut_interval["begin"]:cut_interval["end"]]
+    file_name = window_name[cut_interval["begin"] : cut_interval["end"]]
     file_name = file_name.replace(":", "")
     file_name = file_name.replace("[Только для чтения]", "")
     file_name = file_name.strip()
