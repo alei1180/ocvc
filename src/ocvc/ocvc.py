@@ -79,6 +79,8 @@ def file_name_from_window(window_name: str) -> str:
         return file_name
 
     path_to_save = rf"{os.getenv('TEMP')}\mrg\\"
+    if not os.path.exists(path_to_save):
+        os.makedirs(path_to_save)
 
     cut_interval = window_name_cut_interval(window_name)
     file_name = window_name[cut_interval["begin"]:cut_interval["end"]]
