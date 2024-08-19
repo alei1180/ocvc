@@ -34,3 +34,7 @@
 ### Благодарности
 - Сообществу за свободные инструменты.
 - Дарье Подабед за логотип.
+
+___
+
+<a href="https://infostart.ru/1c/tools/2169394/" target="_blank"><img alt="Статья на Инфостарт" src="https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg"></a>
