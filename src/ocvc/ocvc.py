@@ -17,6 +17,7 @@ def run(app_name: str) -> None:
         app_image,
         title=app_name,
         menu=pystray.Menu(
+            pystray.MenuItem(current_version(), on_clicked),
             pystray.MenuItem("GitHub", on_clicked),
             pystray.MenuItem("Close", on_clicked),
         ),
@@ -26,7 +27,10 @@ def run(app_name: str) -> None:
 
 
 def on_clicked(app_icon: pystray.Icon, item: pystray.MenuItem) -> None:
-    if str(item) == "GitHub":
+    if str(item) == current_version():
+        tag = str(item).replace(" ", "")
+        webbrowser.open(f"https://github.com/alei1180/ocvc/releases/tag/{tag}", new=2)
+    elif str(item) == "GitHub":
         webbrowser.open("https://github.com/alei1180/ocvc", new=2)
     elif str(item) == "Close":
         app_icon.visible = False
@@ -37,6 +41,10 @@ def setup(tray_icon: pystray.Icon) -> None:
     tray_icon.visible = True
     if tray_icon.visible:
         wait_press_hotkey("Shift + Alt + V")
+
+
+def current_version():
+    return "ver 1.2"
 
 
 def wait_press_hotkey(hotkey: str) -> None:
