@@ -155,6 +155,7 @@ def file_name_from_window(window_name: str) -> str:
 
     cut_interval = window_name_cut_interval(window_name)
     file_name = window_name[cut_interval["begin"] : cut_interval["end"]]
+    file_name = file_name.replace("\\", "")
     file_name = file_name.replace(":", "")
     file_name = file_name.replace("[Только для чтения]", "")
     file_name = file_name.strip()
