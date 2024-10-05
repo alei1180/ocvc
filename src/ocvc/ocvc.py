@@ -24,10 +24,11 @@ def run(app_name: str):
 
 
 def tray_menu() -> list[pystray.MenuItem]:
-    menu_items = [pystray.MenuItem("GitHub", on_clicked),
+    menu_items = [pystray.MenuItem("Paste to VS Code", on_clicked),
+                  pystray.MenuItem("GitHub", on_clicked),
                   pystray.MenuItem(current_version(), on_clicked)]
     if new_version_available():
-        menu_items.append(pystray.MenuItem("download new version",
+        menu_items.append(pystray.MenuItem("Download new version",
                                            on_clicked))
     menu_items.append(pystray.MenuItem("Close", on_clicked))
     return menu_items
@@ -57,7 +58,9 @@ def github_ocvc_last_version_number() -> int:
 
 
 def on_clicked(app_icon: pystray.Icon, item: pystray.MenuItem):
-    if str(item) == "GitHub":
+    if str(item) == "Paste to VS Code":
+        open_code_in_vsc_from_menu()
+    elif str(item) == "GitHub":
         webbrowser.open("https://github.com/alei1180/ocvc", new=2)
     elif str(item) == current_version():
         tag = str(item).replace(" ", "")
@@ -65,10 +68,34 @@ def on_clicked(app_icon: pystray.Icon, item: pystray.MenuItem):
         print(github_ocvc_last_version_number())
     elif str(item) == "download new version":
         webbrowser.open("https://github.com/alei1180/ocvc/releases/latest/", new=2)
-        print(github_ocvc_last_version_number())
     elif str(item) == "Close":
         app_icon.visible = False
         app_icon.stop()
+
+
+def open_code_in_vsc_from_menu():
+    copied_code = copy_clipboard()
+    empty_clipboard()
+    if not copied_code:
+        return None
+    file_name = file_name_from_menu()
+    if not file_name:
+        return None
+
+    with open(file_name, "w", encoding="utf8") as file:
+        file.write(copied_code)
+
+    os.system(f"code {file_name} --new-window --sync off")
+
+
+def file_name_from_menu() -> str:
+    file_name = "ocvc_paste_from_menu"
+    path_to_save = rf"{os.getenv('TEMP')}\mrg\\"
+    if not os.path.exists(path_to_save):
+        os.makedirs(path_to_save)
+    file_name = f"{file_name}.bsl"
+    file_name = f"{path_to_save}{file_name}"
+    return file_name
 
 
 def setup(tray_icon: pystray.Icon):
@@ -135,7 +162,7 @@ def file_name_from_window(window_name: str) -> str:
     add_postfix_module = file_name.upper().find("МОДУЛЬ") == -1
     if add_postfix_module:
         file_name = f"{file_name}_Модуль"
-    file_name = f"{file_name}.bsl"
+    file_name = f"ocvc_{file_name}.bsl"
     file_name = f"{path_to_save}{file_name}"
     return file_name
 
