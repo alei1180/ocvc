@@ -38,3 +38,30 @@
 ___
 
 <a href="https://infostart.ru/1c/tools/2169394/" target="_blank"><img alt="Статья на Инфостарт" src="https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg"></a>
+
+
+# OCVC Documentation [English]
+
+## Purpose
+ocvc is a utility that simplifies the transfer of code sections from the 1C Configurator to Visual Studio Code.
+
+## Dependencies
+- Operating system: Windows
+- 1C Configurator
+- Visual Studio Code
+- Language 1C (BSL) Plugin
+
+## Installation
+Download and run the file `ocvc.exe`.
+
+## Usage
+1. Run `ocvc`.
+2. Copy code in the 1C Configurator.
+3. Without leaving the Configurator, press `Shift + Alt + V`.
+
+## Similar Projects
+- `vscode-merge-tool-adapter-cli` - comparison without considering structure and merging files in Visual Studio Code.
+
+## Acknowledgments
+- To the community for the free tools.
+- To Daria Podabed for the logo.
