@@ -1,6 +1,7 @@
 import os
 import webbrowser
 from ctypes import windll
+from datetime import datetime
 
 import keyboard
 import PIL.Image
@@ -66,7 +67,7 @@ def on_clicked(app_icon: pystray.Icon, item: pystray.MenuItem):
         tag = str(item).replace(" ", "")
         webbrowser.open(f"https://github.com/alei1180/ocvc/releases/tag/{tag}", new=2)
         print(github_ocvc_last_version_number())
-    elif str(item) == "download new version":
+    elif str(item) == "Download new version":
         webbrowser.open("https://github.com/alei1180/ocvc/releases/latest/", new=2)
     elif str(item) == "Close":
         app_icon.visible = False
@@ -89,13 +90,15 @@ def open_code_in_vsc_from_menu():
 
 
 def file_name_from_menu() -> str:
-    file_name = "ocvc_paste_from_menu"
     path_to_save = rf"{os.getenv('TEMP')}\mrg\\"
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
-    file_name = f"{file_name}.bsl"
-    file_name = f"{path_to_save}{file_name}"
+    file_name = f"{path_to_save}ocvc_paste_from_menu_{format_current_date()}.bsl"
     return file_name
+
+
+def format_current_date() -> str:
+    return datetime.now().strftime('%d%m%y%H%M%S')
 
 
 def setup(tray_icon: pystray.Icon):
@@ -163,8 +166,7 @@ def file_name_from_window(window_name: str) -> str:
     add_postfix_module = file_name.upper().find("МОДУЛЬ") == -1
     if add_postfix_module:
         file_name = f"{file_name}_Модуль"
-    file_name = f"ocvc_{file_name}.bsl"
-    file_name = f"{path_to_save}{file_name}"
+    file_name = f"{path_to_save}ocvc_{file_name}_{format_current_date()}.bsl"
     return file_name
 
 
