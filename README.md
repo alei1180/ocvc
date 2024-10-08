@@ -35,33 +35,31 @@
 - Сообществу за свободные инструменты.
 - Дарье Подабед за логотип.
 
-___
+## English
 
-<a href="https://infostart.ru/1c/tools/2169394/" target="_blank"><img alt="Статья на Инфостарт" src="https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg"></a>
-
-
-# OCVC Documentation [English]
-
-## Purpose
+### Purpose
 ocvc is a utility that simplifies the transfer of code sections from the 1C Configurator to Visual Studio Code.
 
-## Dependencies
+### Dependencies
 - Operating system: Windows
 - 1C Configurator
-- Visual Studio Code
-- Language 1C (BSL) Plugin
+- [Visual Studio Code](https://code.visualstudio.com/)
+- Extension [Language 1C (BSL)](https://marketplace.visualstudio.com/items?itemName=1c-syntax.language-1c-bsl)
 
-## Installation
-Download and run the file `ocvc.exe`.
+### Installation
+[Download](https://github.com/alei1180/ocvc/releases) and run the file `ocvc.exe`.
 
-## Usage
+### Usage
 1. Run `ocvc`.
 2. Copy code in the 1C Configurator.
 3. Without leaving the Configurator, press `Shift + Alt + V`.
 
-## Similar Projects
-- `vscode-merge-tool-adapter-cli` - comparison without considering structure and merging files in Visual Studio Code.
+### Similar Projects
+- [vscode-merge-tool-adapter-cli](https://github.com/zeegin/vscode-merge-tool-adapter-cli) - comparison without considering structure and merging files in Visual Studio Code.
 
-## Acknowledgments
+### Acknowledgments
 - To the community for the free tools.
 - To Daria Podabed for the logo.
+___
+
+<a href="https://infostart.ru/1c/tools/2169394/" target="_blank"><img alt="Статья на Инфостарт" src="https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg"></a>
