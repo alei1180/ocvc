@@ -8,9 +8,15 @@ import PIL.Image
 import pyperclip
 import pystray
 import requests
+from loguru import logger
 from win32gui import GetForegroundWindow, GetWindowText
 
 
+log_file = rf"{os.path.expanduser("~")}\ocvc.log"
+logger.add(log_file, level='INFO')
+
+
+@logger.catch
 def run(app_name: str):
     logo = r"..\..\img\logo.png"
     app_image = PIL.Image.open(logo)
@@ -20,7 +26,7 @@ def run(app_name: str):
         title=app_name,
         menu=tray_menu(),
     )
-
+    logger.info('create tray menu')
     app.run(setup)
 
 
@@ -31,6 +37,7 @@ def tray_menu() -> list[pystray.MenuItem]:
     if new_version_available():
         menu_items.append(pystray.MenuItem("Download new version",
                                            on_clicked))
+    menu_items.append(pystray.MenuItem("Show Log", on_clicked))
     menu_items.append(pystray.MenuItem("Close", on_clicked))
     return menu_items
 
@@ -51,46 +58,69 @@ def current_version() -> str:
 
 def github_ocvc_last_version_number() -> int:
     version = 0
-    response = requests.get("https://api.github.com/repos/alei1180/ocvc/releases/latest")
+    url = "https://api.github.com/repos/alei1180/ocvc/releases/latest"
+    response = requests.get(url)
     if response.status_code == 200:
         tag = response.json()["name"]
         version = int_version_from_string(tag)
+    else:
+        logger.debug(f"error response: {url}, status code: {response.status_code}")
     return version
 
 
 def on_clicked(app_icon: pystray.Icon, item: pystray.MenuItem):
     if str(item) == "Paste to VS Code":
+        logger.info(f"menu: {item}")
         open_code_in_vsc_from_menu()
     elif str(item) == "GitHub":
-        webbrowser.open("https://github.com/alei1180/ocvc", new=2)
+        logger.info(f"menu: {item}")
+        url = "https://github.com/alei1180/ocvc"
+        logger.info(f"open in web browser url: {url}")
+        webbrowser.open(url, new=2)
     elif str(item) == current_version():
+        logger.info(f"menu: {item}")
         tag = str(item).replace(" ", "")
-        webbrowser.open(f"https://github.com/alei1180/ocvc/releases/tag/{tag}", new=2)
-        print(github_ocvc_last_version_number())
+        url = f"https://github.com/alei1180/ocvc/releases/tag/{tag}"
+        logger.info(f"open in web browser url: {url}")
+        webbrowser.open(url, new=2)
     elif str(item) == "Download new version":
-        webbrowser.open("https://github.com/alei1180/ocvc/releases/latest/", new=2)
+        logger.info(f"menu: {item}")
+        url = "https://github.com/alei1180/ocvc/releases/latest/"
+        logger.info(f"open in web browser url: {url}")
+        webbrowser.open(url, new=2)
+    elif str(item) == "Show Log":
+        logger.info(f"menu: {item}")
+        logger.info(f"open in vscode log file {log_file}")
+        os.system(f"code {log_file} --new-window --sync off")
     elif str(item) == "Close":
+        logger.info(f"menu: {item}")
         app_icon.visible = False
         app_icon.stop()
+        logger.info(f"close app: {current_version()}")
 
 
 def open_code_in_vsc_from_menu():
-    copied_code = copy_clipboard()
+    logger.info("copy code from clipboard in var")
+    copied_code = copy_clipboard().strip()
+    logger.info("clear clipboard")
     empty_clipboard()
     if not copied_code:
+        logger.debug("clipboard is empty")
         return None
     file_name = file_name_from_menu()
     if not file_name:
         return None
 
     with open(file_name, "w", encoding="utf8") as file:
+        logger.info(f"write code from var in file {file_name}")
         file.write(copied_code)
 
+    logger.info(f"open in vscode file {file_name}")
     os.system(f"code {file_name} --new-window --sync off")
 
 
 def file_name_from_menu() -> str:
-    path_to_save = rf"{os.getenv('TEMP')}\mrg\\"
+    path_to_save = rf"{os.getenv('TEMP')}\mrg\\".replace("\\\\", "\\")
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
     file_name = f"{path_to_save}ocvc_paste_from_menu_{format_current_date()}.bsl"
@@ -104,30 +134,41 @@ def format_current_date() -> str:
 def setup(tray_icon: pystray.Icon):
     tray_icon.visible = True
     if tray_icon.visible:
-        wait_press_hotkey("Shift + Alt + V")
+        wait_press_hotkey(hotkey())
+
+
+def hotkey() -> str:
+    return "Shift + Alt + V"
 
 
 def wait_press_hotkey(hotkey: str):
-    keyboard.add_hotkey(hotkey, lambda: open_code_in_vsc())
+    keyboard.add_hotkey(hotkey, lambda: open_code_in_vsc_from_hotkey())
 
 
-def open_code_in_vsc():
+def open_code_in_vsc_from_hotkey():
     current_window = GetWindowText(GetForegroundWindow())
     if not configurator_window(current_window, "Конфигуратор"):
         return None
+    logger.info(f"press hotkey {hotkey()} in window Конфигуратор")
 
-    copied_code = copy_clipboard()
+    logger.info("copy code from clipboard in var")
+    copied_code = copy_clipboard().strip()
+    logger.info("clear clipboard")
     empty_clipboard()
     if not copied_code:
+        logger.info("clipboard is empty")
         return None
 
     file_name = file_name_from_window(current_window)
     if not file_name:
+        logger.debug("file name is empty")
         return None
 
     with open(file_name, "w", encoding="utf8") as file:
+        logger.info(f"write code from var in file {file_name}")
         file.write(copied_code)
 
+    logger.info(f"open in vscode file {file_name}")
     os.system(f"code {file_name} --new-window --sync off")
 
 
@@ -152,7 +193,7 @@ def file_name_from_window(window_name: str) -> str:
     if not window_name:
         return file_name
 
-    path_to_save = rf"{os.getenv('TEMP')}\mrg\\"
+    path_to_save = rf"{os.getenv('TEMP')}\mrg\\".replace("\\\\", "\\")
     if not os.path.exists(path_to_save):
         os.makedirs(path_to_save)
 
@@ -190,4 +231,5 @@ def window_name_cut_interval(window_name: str) -> dict[str, int]:
 
 
 if __name__ == "__main__":
+    logger.info(f"start app: {current_version()}")
     run("ocvc")
