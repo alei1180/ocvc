@@ -16,7 +16,7 @@
 
 ### Зависимости
 - Операционная система Windows
-- Конфигуратор 1С
+- [Конфигуратор 1С](https://v8.1c.ru/platforma/konfigurator/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - Плагин [Language 1C (BSL)](https://marketplace.visualstudio.com/items?itemName=1c-syntax.language-1c-bsl)
 
@@ -42,7 +42,7 @@ ocvc is a utility that simplifies the transfer of code sections from the 1C Conf
 
 ### Dependencies
 - Operating system: Windows
-- 1C Configurator
+- [Configurator 1C](https://v8.1c.ru/platforma/konfigurator/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - Extension [Language 1C (BSL)](https://marketplace.visualstudio.com/items?itemName=1c-syntax.language-1c-bsl)
 
