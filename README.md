@@ -29,7 +29,8 @@
 3) Не выходя из Конфигуратора нажать `Shift + Alt + V`
 
 ### Близкие по назначению проекты
-[vscode-merge-tool-adapter-cli](https://github.com/zeegin/vscode-merge-tool-adapter-cli) - сравнение без учета структуры и объединение файлов в Visual Studio Code.
+- [phoenix bsl](https://github.com/otymko/phoenixbsl) - анализатор и форматтер кода в 1С конфигураторе.
+- [vscode-merge-tool-adapter-cli](https://github.com/zeegin/vscode-merge-tool-adapter-cli) - сравнение без учета структуры и объединение файлов в Visual Studio Code.
 
 ### Благодарности
 - Сообществу за свободные инструменты.
@@ -55,6 +56,7 @@ ocvc is a utility that simplifies the transfer of code sections from the 1C Conf
 3. Without leaving the Configurator, press `Shift + Alt + V`.
 
 ### Similar Projects
+- [phoenix bsl](https://github.com/otymko/phoenixbsl) - code analyzer and formatter in the 1C configurator.
 - [vscode-merge-tool-adapter-cli](https://github.com/zeegin/vscode-merge-tool-adapter-cli) - comparison without considering structure and merging files in Visual Studio Code.
 
 ### Acknowledgments
